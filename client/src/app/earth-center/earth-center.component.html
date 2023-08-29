@@ -1,0 +1,5 @@
+<form class="earth-center" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <span class="user-input-txt">Enter your Msg in (Alpha) :</span>
+  <input formControlName="userMsg" class="user-input" />
+  <button class="submit-btn">send message</button>
+</form>
