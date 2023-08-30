@@ -9,14 +9,17 @@ import { CommonService } from '../services/common.service';
 export class MessageComponent implements OnInit {
   constructor(private _service: CommonService) {}
   msgLog: any = [];
+
   ngOnInit(): void {
     this._service.getMsg().subscribe((res) => {
-      Object.entries(res).map((el) => {
-        console.log(JSON.stringify(Object.values(el)[1]));
-        this.msgLog.push(JSON.stringify(Object.values(el)[1]));
+      Object.entries(res).forEach((el) => {
+        const message = { ...el[1] };
+        delete message['_id'];
+        console.log(message);
+        this.msgLog.push(JSON.stringify(message));
       });
-    });
 
-    console.log(this.msgLog);
+      console.log(this.msgLog[0]);
+    });
   }
 }

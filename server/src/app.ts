@@ -3,6 +3,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import { addUser, getUsers } from "./memory-db";
 import cors from "cors";
+import { earthMarsMsgConv, marsEarthMsgConv } from "./common-function";
 
 const app = express();
 const port = 3000;
@@ -17,15 +18,16 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/earth-mars-comm/message", (req, res) => {
-  const postData = req.body; // Data sent in the POST request body
-  console.log("Received data:", postData);
-  addUser(postData);
+  const postData = req.body; 
+  if (postData.location === "earth")
+    addUser(earthMarsMsgConv(postData.userMsg));
+  else addUser(marsEarthMsgConv(postData.userMsg));
+
   res.json({ message: "Data received successfully", data: postData });
 });
 
 app.get("/api/earth-mars-comm/message", (req, res) => {
   getUsers().then((users) => {
-    console.log('--->', users)
     res.json(users);
   });
 });
